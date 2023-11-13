@@ -32,9 +32,14 @@ class _TripListState extends State<TripList> {
       Trip(title: 'Space Blast', price: '600', nights: '4', img: 'space.png'),
     ];
 
+    Future future = Future(() {});
     for (var trip in _trips) {
-      _tripTiles.add(_buildTile(trip));
-      _listKey.currentState?.insertItem(_tripTiles.length - 1);
+      future = future.then((_) {
+        return Future.delayed(const Duration(milliseconds: 200), () {
+          _tripTiles.add(_buildTile(trip));
+          _listKey.currentState?.insertItem(_tripTiles.length - 1);
+        });
+      });
     }
   }
 
@@ -86,7 +91,8 @@ class _TripListState extends State<TripList> {
     );
   }
 
-  Tween<Offset> position = Tween(begin: Offset(1, 0), end: Offset(0, 0));
+  Tween<Offset> position =
+      Tween(begin: const Offset(1, 0), end: const Offset(0, 0));
 
   @override
   Widget build(BuildContext context) {

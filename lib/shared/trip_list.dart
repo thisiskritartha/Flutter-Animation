@@ -56,20 +56,26 @@ class _TripListState extends State<TripList> {
               color: Colors.blue[300],
             ),
           ),
-          Text(
-            trip.title,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.grey[600],
+          Hero(
+            tag: 'trip-${trip.title}',
+            child: Text(
+              trip.title,
+              style: TextStyle(
+                fontSize: 20,
+                color: Colors.grey[600],
+              ),
             ),
           ),
         ],
       ),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(8.0),
-        child: Image.asset(
-          'images/${trip.img}',
-          height: 50.0,
+        child: Hero(
+          tag: 'location-img-${trip.img}',
+          child: Image.asset(
+            'images/${trip.img}',
+            height: 50.0,
+          ),
         ),
       ),
       trailing: Text('Rs. ${trip.price}'),

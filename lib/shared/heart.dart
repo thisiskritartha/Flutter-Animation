@@ -8,6 +8,7 @@ class Heart extends StatefulWidget {
 class _HeartState extends State<Heart> with TickerProviderStateMixin {
   AnimationController? _controller;
   Animation? _colorAnimation;
+  Animation<double>? _sizeAnimation;
   bool isFav = false;
 
   @override
@@ -15,12 +16,19 @@ class _HeartState extends State<Heart> with TickerProviderStateMixin {
     super.initState();
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 400),
       vsync: this,
     );
 
     _colorAnimation = ColorTween(begin: Colors.grey[400], end: Colors.red)
         .animate(_controller!);
+
+    _sizeAnimation = TweenSequence(
+      <TweenSequenceItem<double>>[
+        TweenSequenceItem(tween: Tween(begin: 30, end: 50), weight: 50),
+        TweenSequenceItem(tween: Tween(begin: 50, end: 30), weight: 50),
+      ],
+    ).animate(_controller!);
 
     _controller!.addListener(() {
       print(_controller!.value);
@@ -42,7 +50,6 @@ class _HeartState extends State<Heart> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     _controller!.dispose();
   }
@@ -56,7 +63,7 @@ class _HeartState extends State<Heart> with TickerProviderStateMixin {
           icon: Icon(
             Icons.favorite,
             color: _colorAnimation!.value,
-            size: 30,
+            size: _sizeAnimation!.value,
           ),
           onPressed: () {
             isFav ? _controller!.reverse() : _controller!.forward();
